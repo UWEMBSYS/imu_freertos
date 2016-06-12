@@ -48,7 +48,6 @@
 
 /* Variables -----------------------------------------------------------------*/
 
-
 /* USER CODE BEGIN Variables */
 TaskHandle_t imuTaskHandle;
 TaskHandle_t fusionTaskHandle;
@@ -59,8 +58,8 @@ SemaphoreHandle_t irqCompass;
 SemaphoreHandle_t drdyCompass;
 
 static unsigned const QUEUE_DEPTH = 16;
-QueueHandle_t	qImuToFusion;
-QueueHandle_t	qFusionToDisplay;
+QueueHandle_t qImuToFusion;
+QueueHandle_t qFusionToDisplay;
 
 /* USER CODE END Variables */
 
@@ -75,58 +74,62 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /* Init FreeRTOS */
 
-void MX_FREERTOS_Init(void) {
-	/* USER CODE BEGIN Init */
+void MX_FREERTOS_Init(void)
+{
+    /* USER CODE BEGIN Init */
 
-	/* USER CODE END Init */
+    /* USER CODE END Init */
 
-	/* USER CODE BEGIN RTOS_MUTEX */
-	mutexI2C =  xSemaphoreCreateMutex();
+    /* USER CODE BEGIN RTOS_MUTEX */
+    mutexI2C = xSemaphoreCreateMutex();
 
-	/* USER CODE END RTOS_MUTEX */
+    /* USER CODE END RTOS_MUTEX */
 
-	/* USER CODE BEGIN RTOS_SEMAPHORES */
-	qImuToFusion = xQueueCreate(QUEUE_DEPTH, sizeof(IMUData_t));
-	qFusionToDisplay = xQueueCreate(QUEUE_DEPTH, sizeof(FusedData_t));
-	if ((NULL==qImuToFusion) || (NULL==qFusionToDisplay)) {
-		printf("Failed to create queue\r\n");
-		/* TODO: cleanup */
-	}
+    /* USER CODE BEGIN RTOS_SEMAPHORES */
+    qImuToFusion = xQueueCreate(QUEUE_DEPTH, sizeof(IMUData_t));
+    qFusionToDisplay = xQueueCreate(QUEUE_DEPTH, sizeof(FusedData_t));
+    if ((NULL == qImuToFusion) || (NULL == qFusionToDisplay)) {
+        printf("Failed to create queue\r\n");
+        /* TODO: cleanup */
+    }
 
-	irqAccGyro = xSemaphoreCreateCounting(QUEUE_DEPTH, 0);
-	irqCompass = xSemaphoreCreateCounting(QUEUE_DEPTH, 0);
-	drdyCompass = xSemaphoreCreateCounting(QUEUE_DEPTH, 0);
+    irqAccGyro = xSemaphoreCreateCounting(QUEUE_DEPTH, 0);
+    irqCompass = xSemaphoreCreateCounting(QUEUE_DEPTH, 0);
+    drdyCompass = xSemaphoreCreateCounting(QUEUE_DEPTH, 0);
 
-	if (! (irqAccGyro && irqCompass && drdyCompass)) {
-		printf("Failed to create a semaphore\r\n");
-		/* TODO: Cleanup */
-	}
+    if (!(irqAccGyro && irqCompass && drdyCompass)) {
+        printf("Failed to create a semaphore\r\n");
+        /* TODO: Cleanup */
+    }
 
-	/* USER CODE END RTOS_SEMAPHORES */
+    /* USER CODE END RTOS_SEMAPHORES */
 
-	/* USER CODE BEGIN RTOS_TIMERS */
-	/* start timers, add new ones, ... */
-	/* USER CODE END RTOS_TIMERS */
+    /* USER CODE BEGIN RTOS_TIMERS */
+    /* start timers, add new ones, ... */
+    /* USER CODE END RTOS_TIMERS */
 
-	/* Create the thread(s) */
+    /* Create the thread(s) */
 
-	/* USER CODE BEGIN RTOS_THREADS */
-	BaseType_t ret;
-	ret = xTaskCreate(&IMUTaskThread, "imuTask", 128, NULL, tskIDLE_PRIORITY + 3, &imuTaskHandle);
-	ret &= xTaskCreate(&FusionTaskThread, "fusionTask", 128, NULL, tskIDLE_PRIORITY, &fusionTaskHandle);
-	ret &= xTaskCreate(&DisplayTaskThread, "displayTask", 128, NULL, tskIDLE_PRIORITY + 2, &displayTaskHandle);
+    /* USER CODE BEGIN RTOS_THREADS */
+    BaseType_t ret;
+    ret = xTaskCreate(&IMUTaskThread, "imuTask", 128, NULL,
+            tskIDLE_PRIORITY + 3, &imuTaskHandle);
+    ret &= xTaskCreate(&FusionTaskThread, "fusionTask", 128, NULL,
+            tskIDLE_PRIORITY, &fusionTaskHandle);
+    ret &= xTaskCreate(&DisplayTaskThread, "displayTask", 128, NULL,
+            tskIDLE_PRIORITY + 2, &displayTaskHandle);
 
-	if (pdPASS == ret) {
-		/* TODO: cleanup */
-		printf("Failed to create all threads\r\n");
-	}
+    if (pdPASS == ret) {
+        /* TODO: cleanup */
+        printf("Failed to create all threads\r\n");
+    }
 
-	/* USER CODE END RTOS_THREADS */
+    /* USER CODE END RTOS_THREADS */
 
-	/* USER CODE BEGIN RTOS_QUEUES */
-	/* add queues, ... */
-	/* USER CODE END RTOS_QUEUES */
-	vTaskStartScheduler();
+    /* USER CODE BEGIN RTOS_QUEUES */
+    /* add queues, ... */
+    /* USER CODE END RTOS_QUEUES */
+    vTaskStartScheduler();
 }
 
 /* USER CODE BEGIN Application */

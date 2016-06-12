@@ -6,4 +6,13 @@
 void FusionTaskThread(void * param)
 {
 
+    /* setup fusion */
+
+    /* Wait for data to arrived */
+
+    /* Process the data */
+
+    /* repackage data */
+
+    /* Pass it onto the display task */
 }

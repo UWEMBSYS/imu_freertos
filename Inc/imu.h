@@ -19,28 +19,28 @@ extern QueueHandle_t qFusionToDisplay;
 extern I2C_HandleTypeDef hi2c1;
 
 typedef struct {
-	int16_t x;
-	int16_t y;
-	int16_t	z;
+    int16_t x;
+    int16_t y;
+    int16_t z;
 } Triplet_t;
 
 typedef struct {
-	uint32_t	time;
-	Triplet_t 	acc;
-	Triplet_t 	gyro;
-	Triplet_t 	mag;
+    uint32_t time;
+    Triplet_t acc;
+    Triplet_t gyro;
+    Triplet_t mag;
 } IMUData_t;
 
 typedef struct {
-	float	x;
-	float	y;
-	float	z;
-	float	w;
+    float x;
+    float y;
+    float z;
+    float w;
 } Quaternion_t;
 
 typedef struct {
-	IMUData_t		raw;
-	Quaternion_t	q;
+    IMUData_t raw;
+    Quaternion_t q;
 } FusedData_t;
 
 void IMUTaskThread(void *arg);
@@ -66,7 +66,6 @@ void IMUTaskThread(void *arg);
 #define LSM6DS0_XG_WHO_AM_I_ADDR                            0x0F
 #define LSM6DS0_XG_CTRL_REG4                                0x1E
 #define LSM6DS0_XG_CTRL_REG10                               0x24
-
 
 /***************************************** GYROSCOPE REGISTERS ********************************************/
 
@@ -123,7 +122,6 @@ void IMUTaskThread(void *arg);
 
 /************************************* GYROSCOPE REGISTERS VALUE *******************************************/
 
-
 /** @defgroup LSM6DS0_XG Gyroscope Output Data Rate selection CTRL_REG1_G
  * @{
  */
@@ -136,8 +134,6 @@ void IMUTaskThread(void *arg);
 #define LSM6DS0_G_ODR_952HZ                             ((uint8_t)0xC0) /*!< Output Data Rate: 952 Hz, cutoff 100Hz*/
 
 #define LSM6DS0_G_ODR_MASK                              ((uint8_t)0xE0)
-
-
 
 /** @defgroup LSM6DS0_XG Gyroscope Bandwidth selection CTRL_REG1_G
  * @{
@@ -173,7 +169,6 @@ void IMUTaskThread(void *arg);
 
 #define LSM6DS0_G_BW_MASK                              ((uint8_t)0x03)
 
-
 /** @defgroup LSM6DS0_XG Gyroscope Full scale selection CTRL_REG1_G
  * @{
  */
@@ -183,7 +178,6 @@ void IMUTaskThread(void *arg);
 
 #define LSM6DS0_G_FS_MASK                              ((uint8_t)0x18)
 
-
 /** @defgroup LSM6DS0_XG Gyroscope’s Z-axis output enable selection CTRL_REG4
  * @{
  */
@@ -191,7 +185,6 @@ void IMUTaskThread(void *arg);
 #define LSM6DS0_G_ZEN_ENABLE                           ((uint8_t)0x20) /*!< Gyroscope’s Z-axis output enable: enable */
 
 #define LSM6DS0_G_ZEN_MASK                             ((uint8_t)0x20)
-
 
 /** @defgroup LSM6DS0_XG Gyroscope’s Y-axis output enable selection CTRL_REG4
  * @{
@@ -201,7 +194,6 @@ void IMUTaskThread(void *arg);
 
 #define LSM6DS0_G_YEN_MASK                             ((uint8_t)0x10)
 
-
 /** @defgroup LSM6DS0_XG Gyroscope’s X-axis output enable selection CTRL_REG4
  * @{
  */
@@ -209,7 +201,6 @@ void IMUTaskThread(void *arg);
 #define LSM6DS0_G_XEN_ENABLE                           ((uint8_t)0x08) /*!< Gyroscope’s X-axis output enable: enable */
 
 #define LSM6DS0_G_XEN_MASK                             ((uint8_t)0x08)
-
 
 /** @defgroup LSM6DS0 Gyro selftest en/dis - LSM6DS0_XG_CTRL_REG10
  * @{
@@ -222,7 +213,6 @@ void IMUTaskThread(void *arg);
 /**
  * @}
  */
-
 
 /************************************ ACCELEROMETER REGISTERS VALUE *****************************************/
 
@@ -239,7 +229,6 @@ void IMUTaskThread(void *arg);
 
 #define LSM6DS0_XL_ODR_MASK                             ((uint8_t)0xE0)
 
-
 /** @defgroup LSM6DS0_XG Accelerometer Full scale selection CTRL_REG6_XL
  * @{
  */
@@ -248,7 +237,6 @@ void IMUTaskThread(void *arg);
 #define LSM6DS0_XL_FS_8G                                ((uint8_t)0x18) /*!< Full scale: +- 8g */
 
 #define LSM6DS0_XL_FS_MASK                              ((uint8_t)0x18)
-
 
 /** @defgroup LSM6DS0_XG Accelerometer Bandwidth selection CTRL_REG6_XL
  * @{
@@ -262,7 +250,6 @@ void IMUTaskThread(void *arg);
 
 #define LSM6DS0_XL_BW_SCAL_MASK                         ((uint8_t)0x04)
 
-
 /** @defgroup LSM6DS0_XG Accelerometer Anti aliasing filter bandwidth selection CTRL_REG6_XL
  * @{
  */
@@ -272,7 +259,6 @@ void IMUTaskThread(void *arg);
 #define LSM6DS0_XL_BW_50HZ                              ((uint8_t)0x03) /*!< Anti-aliasing filter bandwidht: 50 Hz */
 
 #define LSM6DS0_XL_BW_MASK                              ((uint8_t)0x03)
-
 
 /** @defgroup LSM6DS0_XG Accelerometer Decimation of acceleration data selection CTRL_REG5_XL
  * @{
@@ -284,7 +270,6 @@ void IMUTaskThread(void *arg);
 
 #define LSM6DS0_XL_DEC_MASK                             ((uint8_t)0xC0)
 
-
 /** @defgroup LSM6DS0_XG Accelerometer’s Z-axis output enable selection CTRL_REG5_XL
  * @{
  */
@@ -293,7 +278,6 @@ void IMUTaskThread(void *arg);
 
 #define LSM6DS0_XL_ZEN_MASK                             ((uint8_t)0x20)
 
-
 /** @defgroup LSM6DS0_XG Accelerometer’s Y-axis output enable selection CTRL_REG5_XL
  * @{
  */
@@ -301,7 +285,6 @@ void IMUTaskThread(void *arg);
 #define LSM6DS0_XL_YEN_ENABLE                           ((uint8_t)0x10) /*!< Accelerometer’s Y-axis output enable: enable */
 
 #define LSM6DS0_XL_YEN_MASK                             ((uint8_t)0x10)
-
 
 /** @defgroup LSM6DS0_XG Accelerometer’s X-axis output enable selection CTRL_REG5_XL
  * @{
@@ -319,28 +302,27 @@ void IMUTaskThread(void *arg);
 
 #define LSM6DS0_XL_ST_MASK                              ((uint8_t)0x01)
 
-
 enum {
- LIS3MDL_WHO_AM_I    = 0x0F,
+    LIS3MDL_WHO_AM_I = 0x0F,
 
- LIS3MDL_CTRL_REG1   = 0x20,
- LIS3MDL_CTRL_REG2   = 0x21,
- LIS3MDL_CTRL_REG3   = 0x22,
- LIS3MDL_CTRL_REG4   = 0x23,
- LIS3MDL_CTRL_REG5   = 0x24,
+    LIS3MDL_CTRL_REG1 = 0x20,
+    LIS3MDL_CTRL_REG2 = 0x21,
+    LIS3MDL_CTRL_REG3 = 0x22,
+    LIS3MDL_CTRL_REG4 = 0x23,
+    LIS3MDL_CTRL_REG5 = 0x24,
 
- LIS3MDL_STATUS_REG  = 0x27,
- LIS3MDL_OUT_X_L     = 0x28,
- LIS3MDL_OUT_X_H     = 0x29,
- LIS3MDL_OUT_Y_L     = 0x2A,
- LIS3MDL_OUT_Y_H     = 0x2B,
- LIS3MDL_OUT_Z_L     = 0x2C,
- LIS3MDL_OUT_Z_H     = 0x2D,
- LIS3MDL_TEMP_OUT_L  = 0x2E,
- LIS3MDL_TEMP_OUT_H  = 0x2F,
- LIS3MDL_INT_CFG     = 0x30,
- LIS3MDL_INT_SRC     = 0x31,
- LIS3MDL_INT_THS_L   = 0x32,
- LIS3MDL_INT_THS_H   = 0x33,
+    LIS3MDL_STATUS_REG = 0x27,
+    LIS3MDL_OUT_X_L = 0x28,
+    LIS3MDL_OUT_X_H = 0x29,
+    LIS3MDL_OUT_Y_L = 0x2A,
+    LIS3MDL_OUT_Y_H = 0x2B,
+    LIS3MDL_OUT_Z_L = 0x2C,
+    LIS3MDL_OUT_Z_H = 0x2D,
+    LIS3MDL_TEMP_OUT_L = 0x2E,
+    LIS3MDL_TEMP_OUT_H = 0x2F,
+    LIS3MDL_INT_CFG = 0x30,
+    LIS3MDL_INT_SRC = 0x31,
+    LIS3MDL_INT_THS_L = 0x32,
+    LIS3MDL_INT_THS_H = 0x33,
 };
 
