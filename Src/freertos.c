@@ -119,7 +119,7 @@ void MX_FREERTOS_Init(void)
     ret &= xTaskCreate(&DisplayTaskThread, "displayTask", 128, NULL,
             tskIDLE_PRIORITY + 2, &displayTaskHandle);
 
-    if (pdPASS == ret) {
+    if (pdPASS != ret) {
         /* TODO: cleanup */
         printf("Failed to create all threads\r\n");
     }

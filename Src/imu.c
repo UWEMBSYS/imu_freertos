@@ -5,8 +5,8 @@
 #include "task.h"
 #include "cmsis_os.h"
 
-#define LIS3MDL_ADDR	0x1E
-#define LSM6DS0_ADDR	0x6b
+#define LIS3MDL_ADDR	(0x1E << 1)
+#define LSM6DS0_ADDR	(0x6b << 1)
 
 static int lis3mdl_WriteReg(uint8_t reg, int8_t val)
 {
@@ -30,7 +30,7 @@ static int lis3mdl_Initialize(uint32_t freq)
 {
 
     /* Verify ID */
-    int8_t tmp1;
+    int8_t tmp1=0;
     lis3mdl_ReadReg(LIS3MDL_WHO_AM_I, &tmp1);
     printf("LIS3MDL ID 0x%x\r\n", tmp1);
 
@@ -149,10 +149,15 @@ static int IMU_Initialize(uint32_t freq)
 {
 
     /* start the drivers */
+    lsm6ds0_Initialize(freq);
     lis3mdl_Initialize(freq);
     lsm6ds0_Initialize(freq);
 
     /* Enable interrupts */
+    HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+    HAL_NVIC_EnableIRQ(EXTI1_IRQn);
+    HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+    
 
     return 0;
 }
@@ -160,6 +165,7 @@ static int IMU_Initialize(uint32_t freq)
 void IMUTaskThread(void *arg)
 {
 
+  printf("IMU task starting\r\n");
     /* Initialize the IMUs */
     IMU_Initialize(100);
 
@@ -170,16 +176,15 @@ void IMUTaskThread(void *arg)
         IMUData_t data;
 
         /* Wait for data ready from compass */
-        if (pdTRUE == xSemaphoreTake(&drdyCompass, portMAX_DELAY)) {
+        xSemaphoreTake(drdyCompass, 10);
+        /* Fetch data */
+        data.time = xTaskGetTickCount();
+        lsm6ds0_ReadValues(&data);
+        lis3mdl_ReadValues(&data);
 
-            /* Fetch data */
-            data.time = xTaskGetTickCount();
-            lsm6ds0_ReadValues(&data);
-            lis3mdl_ReadValues(&data);
+        /* queue data */
+        xQueueSend(qImuToFusion, &data, 10);
 
-            /* queue data */
-            xQueueSend(&qImuToFusion, &data, 10);
-        }
     }
 
 }

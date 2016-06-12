@@ -65,13 +65,13 @@ void HAL_MspInit(void)
   HAL_NVIC_SetPriority(PendSV_IRQn, 15, 0);
   /* SysTick_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0);
-  HAL_NVIC_SetPriority(EXTI0_IRQn, 15, 0);
-  HAL_NVIC_SetPriority(EXTI1_IRQn, 15, 0);
-  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 15, 0);
+
 
 
   /* USER CODE BEGIN MspInit 1 */
-
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 15, 0);
+  HAL_NVIC_SetPriority(EXTI1_IRQn, 15, 0);
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 15, 0);
   /* USER CODE END MspInit 1 */
 }
 

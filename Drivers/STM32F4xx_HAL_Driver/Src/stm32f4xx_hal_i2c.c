@@ -401,11 +401,11 @@ HAL_StatusTypeDef HAL_I2C_Init(I2C_HandleTypeDef *hi2c)
 
   /*---------------------------- I2Cx OAR1 Configuration ---------------------*/
   /* Configure I2Cx: Own Address1 and addressing mode */
-  hi2c->Instance->OAR1 = (hi2c->Init.AddressingMode | hi2c->Init.OwnAddress1);
+ // hi2c->Instance->OAR1 = (hi2c->Init.AddressingMode | hi2c->Init.OwnAddress1);
 
   /*---------------------------- I2Cx OAR2 Configuration ---------------------*/
   /* Configure I2Cx: Dual mode and Own Address2 */
-  hi2c->Instance->OAR2 = (hi2c->Init.DualAddressMode | hi2c->Init.OwnAddress2);
+ // hi2c->Instance->OAR2 = (hi2c->Init.DualAddressMode | hi2c->Init.OwnAddress2);
 
   /* Enable the selected I2C peripheral */
   __HAL_I2C_ENABLE(hi2c);

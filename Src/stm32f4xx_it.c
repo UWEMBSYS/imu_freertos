@@ -107,7 +107,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t pin)
 	{
 	case GPIO_PIN_0:
 		/* LIS3MDL_DRDY  */
-		xSemaphoreGiveFromISR(&drdyCompass, NULL);
+		xSemaphoreGiveFromISR(drdyCompass, NULL);
 		break;
 	case GPIO_PIN_1:
 		/* LIS3MDL_INT1 */

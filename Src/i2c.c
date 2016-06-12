@@ -78,15 +78,21 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* i2cHandle)
         GPIO_InitStruct.Pin = GPIO_PIN_8 | GPIO_PIN_9;
         GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
         GPIO_InitStruct.Pull = GPIO_PULLUP;
-        GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+        GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
         GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
         HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
         /* Peripheral clock enable */
-        __HAL_RCC_I2C1_CLK_ENABLE()
-        ;
+        __HAL_RCC_I2C1_CLK_ENABLE();
         /* USER CODE BEGIN I2C1_MspInit 1 */
-
+        /* Peripheral reset */
+        __HAL_RCC_I2C1_FORCE_RESET();
+        __HAL_RCC_I2C1_RELEASE_RESET();
+        
+        /* Soft reset of I2C block */
+        i2cHandle->Instance->CR1  |= I2C_CR1_SWRST;
+        i2cHandle->Instance->CR1  &= ~I2C_CR1_SWRST;
+        
         /* USER CODE END I2C1_MspInit 1 */
     }
 }

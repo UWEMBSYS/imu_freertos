@@ -83,7 +83,7 @@ int main(void)
     MX_USART2_UART_Init();
 
     /* USER CODE BEGIN 2 */
-
+printf("PRINTF Test\r\n");
     /* USER CODE END 2 */
 
     /* Call init function for freertos objects (in freertos.c) */
