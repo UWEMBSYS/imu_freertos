@@ -998,6 +998,9 @@
         <name>$PROJ_DIR$\..\Inc\imu.h</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\Inc\MadgwickAHRS.h</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\Inc\mxconstants.h</name>
       </file>
       <file>
@@ -1029,6 +1032,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\imu.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\Src\MadgwickAHRS.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\main.c</name>

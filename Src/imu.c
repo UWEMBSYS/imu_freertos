@@ -8,6 +8,7 @@
 #define LIS3MDL_ADDR	(0x1E << 1)
 #define LSM6DS0_ADDR	(0x6b << 1)
 
+
 static int lis3mdl_WriteReg(uint8_t reg, int8_t val)
 {
     return HAL_I2C_Mem_Write(&hi2c1, LIS3MDL_ADDR, reg, 1, (uint8_t*) &val,
@@ -28,14 +29,13 @@ static int lis3mdl_ReadReg16(uint8_t reg, int16_t *val)
 
 static int lis3mdl_Initialize(uint32_t freq)
 {
-
     /* Verify ID */
     int8_t tmp1=0;
     lis3mdl_ReadReg(LIS3MDL_WHO_AM_I, &tmp1);
     printf("LIS3MDL ID 0x%x\r\n", tmp1);
 
-    /* OM = 11 (ultra-high-performance mode for X and Y); DO = 100 (10 Hz ODR) */
-    lis3mdl_WriteReg(LIS3MDL_CTRL_REG1, 0x70);
+    /* OM = 11 (ultra-high-performance mode for X and Y); DO = 111 (80 Hz ODR, Z axis) */
+    lis3mdl_WriteReg(LIS3MDL_CTRL_REG1, 0x5c);
     /* FS = 00 (+/- 4 gauss full scale) */
     lis3mdl_WriteReg(LIS3MDL_CTRL_REG2, 0x00);
 
@@ -44,6 +44,9 @@ static int lis3mdl_Initialize(uint32_t freq)
 
     /* OMZ = 11 (ultra-high-performance mode for Z) */
     lis3mdl_WriteReg(LIS3MDL_CTRL_REG4, 0x0C);
+    
+    /* BDU = 1 onnly update regs after they are all read */
+    lis3mdl_WriteReg(LIS3MDL_CTRL_REG4, 0x0C);    
     return 0;
 }
 
@@ -104,6 +107,7 @@ static int lsm6ds0_Initialize(uint32_t freq)
     tmp1 |= LSM6DS0_G_FS_2000;
     lsm6ds0_WriteReg(LSM6DS0_XG_CTRL_REG1_G, tmp1);
 
+    /* acc left at +/- 2 default */
     lsm6ds0_ReadReg(LSM6DS0_XG_CTRL_REG4, &tmp1);
     /* Enable X axis selection */
     tmp1 &= ~(LSM6DS0_G_XEN_MASK);
@@ -169,23 +173,21 @@ void IMUTaskThread(void *arg)
     /* Initialize the IMUs */
     IMU_Initialize(100);
 
-    /* Start the IMUs */
-
     /* Forever */
     while (1) {
         IMUData_t data;
 
         /* Wait for data ready from compass */
         xSemaphoreTake(drdyCompass, 10);
+        HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+        
         /* Fetch data */
         data.time = xTaskGetTickCount();
-        lsm6ds0_ReadValues(&data);
         lis3mdl_ReadValues(&data);
+        lsm6ds0_ReadValues(&data);
 
         /* queue data */
         xQueueSend(qImuToFusion, &data, 10);
-
     }
-
 }
 
