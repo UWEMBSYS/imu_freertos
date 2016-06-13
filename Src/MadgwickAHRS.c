@@ -242,7 +242,7 @@ float invSqrt(float x) {
 }
 
 
-void MadgwickComputeAngles()
+void MadgwickComputeAngles(void)
 {
 	roll = atan2f(q0*q1 + q2*q3, 0.5f - q1*q1 - q2*q2);
 	pitch = asinf(-2.0f * (q1*q3 - q0*q2));

@@ -34,7 +34,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usart.h"
-
+#include "stm32f4xx_hal.h"
 #include "gpio.h"
 
 /* USER CODE BEGIN 0 */
@@ -116,7 +116,12 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 } 
 
 /* USER CODE BEGIN 1 */
+int __io_putchar(int ch)
+{
+    HAL_UART_Transmit(&huart2, (uint8_t*)&ch, 1, 10);
 
+    return 0;
+}
 /* USER CODE END 1 */
 
 /**

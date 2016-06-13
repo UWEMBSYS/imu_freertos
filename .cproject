@@ -73,6 +73,7 @@
 								<option id="gnu.both.asm.option.include.paths.1763179799" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value=""/>
 								</option>
+								<option id="gnu.both.asm.option.flags.1246961424" name="Assembler flags" superClass="gnu.both.asm.option.flags" value="" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.119381920" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.assembler.input.1041248164" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler.input"/>
 							</tool>
